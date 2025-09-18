@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration Form Validation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f8f9fa;
+    }
+    form {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    input:focus {
+      border-color: #007bff;
+    }
+    .error {
+      color: red;
+      font-size: 13px;
+    }
+    .success {
+      color: green;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 15px;
+    }
+    .valid {
+      border-color: green !important;
+    }
+    .invalid {
+      border-color: red !important;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 20px;
+      background: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <form id="registrationForm" novalidate>
+    <h2>Registration Form</h2>
+
+    <label for="fullname">Full Name:</label>
+    <input type="text" id="fullname" required>
+    <small class="error" id="nameError"></small>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" required>
+    <small class="error" id="emailError"></small>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" required>
+    <small class="error" id="passwordError"></small>
+
+    <label for="phone">Phone Number:</label>
+    <input type="tel" id="phone" required pattern="[0-9]{10}">
+    <small class="error" id="phoneError"></small>
+
+    <button type="submit">Register</button>
+    <p id="formSuccess" class="success"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById("registrationForm");
+
+    const fullname = document.getElementById("fullname");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const phone = document.getElementById("phone");
+
+    const nameError = document.getElementById("nameError");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const phoneError = document.getElementById("phoneError");
+    const formSuccess = document.getElementById("formSuccess");
+
+    // Validate Full Name
+    fullname.addEventListener("input", () => {
+      if (fullname.value.trim() === "") {
+        setError(fullname, nameError, "Full Name is required");
+      } else {
+        setSuccess(fullname, nameError);
+      }
+    });
+
+    // Validate Email
+    email.addEventListener("input", () => {
+      const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+      if (email.value.trim() === "") {
+        setError(email, emailError, "Email is required");
+      } else if (!emailPattern.test(email.value)) {
+        setError(email, emailError, "Enter a valid email");
+      } else {
+        setSuccess(email, emailError);
+      }
+    });
+
+    // Validate Password
+    password.addEventListener("input", () => {
+      const passwordValue = password.value;
+      if (passwordValue.trim() === "") {
+        setError(password, passwordError, "Password is required");
+      } else if (passwordValue.length < 6) {
+        setError(password, passwordError, "Password must be at least 6 characters");
+      } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(passwordValue)) {
+        setError(password, passwordError, "Password must contain a special character");
+      } else {
+        setSuccess(password, passwordError);
+      }
+    });
+
+    // Validate Phone
+    phone.addEventListener("input", () => {
+      const phonePattern = /^[0-9]{10}$/;
+      if
